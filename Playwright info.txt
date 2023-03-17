@@ -1,0 +1,622 @@
+What is Playwright
+
+Free & open source Framework for web automation testing I Created by Microsoft
+Applications - Web browser apps I Mobile web apps I API
+Languages - JavaScript, TypeScript, Java, Python, .NET (C#)
+Browsers - all modern engines Chromium, WebKit, and Firefox (headless or headed)
+OS - Windows, MacOS, Linux I Supports Cl runs
+https://playwright.dev/
+https://github.com/microsoft/playwright
+
+==========================================================================================================================
+
+Features of Playwright:
+
+
+Free I Open Source
+Multi-Browser I Multi-Language I Multi-OS
+Easy Setup and Configuration
+Functional I API I Accessibility testing
+Built-in Reporters I Custom Reporters
+Cl CD I Docker support
+Recording I Debugging I Explore selectors
+Parallel testing
+auto wait
+Built-in assertions I Less Flaky tests
+Test retry, logs, screenshots, videos
+Multi-tab and multi-window
+Frames I Shadow DOM
+Emulate mobile devices, geolocations
+
+==============================================================================================================================
+
+Prerequisites:
+
+Node JS
+IDE ( VS Code )
+node-v npm -v
+
+==================================================================================================================
+
+Installation:
+
+
+Install using command as npm package::
+
+Step 1 - Create a new folder and open in VS Code
+Step 2 - Goto Terminal and run command - npm init playwright@latest
+Step 3 - Following will be added
+- package.json - node project management file
+- playwright.config.js - Configuration file
+- tests folder - basic example test
+- tests-examples folder - detail@d example tests
+- .gitignore - to be used during git commit and push
+- playwright.yml - to be used during ci cd pipeline 
+
+Step 4 - Check playwright added - npm playwright -v
+Step 5 - Check playwright command options - npx playwright -h
+
+Using VS Code extension::
+
+step 1 -
+Create a new folder and open in VS Code
+Step 2 - Goto Extensions section and install Playwright extension from Microsoft
+step 3 -
+Goto View > Command Palette and type playwright > select install playwright
+Step 4 -
+Select the browsers and click 0k
+step 5
+- It will install the libraries and create the project folders
+
+================================================================================================================================================
+Running Test:
+
+
+npx playwright test === runs all tests on all browsers in headless mode
+npx playwright test —workers 3 === runs with 3 workers in parallel
+npx playwright test one.spec.js === runs a specific test file
+npx playwright test one.spec.js two.spec.js === runs the files specified
+npx playwright test one two == runs files that have one or two in the file name
+npx playwright test -g "check title" == runs test with the title
+npx playwright test —project=chromium  === runs on specific browser
+npx playwright test --headed === runs tests in headed mode
+npx playwright test —debug == debug tests
+npx playwright test example.spec.js —debug === debug starting from specific line where test starts
+
+
+=====================================================================================================================================================
+
+
+
+How to write tests:
+
+
+Step 1 - Create a new file under test folder
+Step 2 - Add module 'playwright/test'
+const {test, expect}
+require() is a node js built-in function used
+to load modules present in separate files
+Here we are loading test and expect
+modules from playwright package
+= require ('@playwright/test')
+import {test, expect} from '@playwright/test'
+Playwright Test provides a test function to declare tests and expect function to write assertions
+Step 3 - Create a test block - test(title, testFunction)
+
+test( 'My First Test',
+async ( {page}) => {
+await page . goto( 'https : //google.com' )
+await expect (page) .toHaveTit1e( 'Google' )
+
+})
+
+
+The keyword async before a function makes the function return a promise
+The keyword await before a function makes the function wait for a promise
+
+
+
+===========================================================================================================================================================
+
+How to record test - Test Generator:
+
+
+Playwright comes with a tool - Codegen also called Test Generator
+Can be used to record test and generate test scripts
+It Opens 2 windows
+Can also add the url
+1. A browser window to interacts with the website
+npx playwright codegen google.com
+2. Playwright Inspector window to record test
+Step 1 - Open terminal and run codegen npx playwright codegen
+Step 2 - Check 2 windows open - Browser and Playwright Inspector
+step 3 -
+Record your test steps and check the test scripts getting created
+
+Record on a specific browser:
+
+npx playwright codegen —browser firefox
+
+Record and save to a file:
+
+npx playwright codegen —target javascript -o record_example.js
+
+Emulate devices:
+
+npx playwright codegen 11"
+
+Emulate color scheme:
+
+npx playwright codegen —color-scheme=dark
+
+
+==========================================================================================================================================
+
+
+What is Trace Viewer:
+
+GUI tool that helps viewing the executed test along with snapshots, timeline and other details (traces)
+
+How to use Trace Viewer::
+
+Step I - Open config file and set trace: •on-first-retry'
+It means - Collect trace when retrying the failed test for the 1st time only
+step 2 -
+Save and Run a test to fail
+step 3 -
+Check trace.zip file created under test-results folder
+Step 4 - View trace - npx playwright show-trace trace.zip
+
+
+
+Trace Viewer Options:
+
+'on-first-retry'
+- Record a trace only when retrying a test for the first time.
+'off
+- Do not record a trace.
+'on'
+- Record a trace for each test. (not recommended as it's performance heavy)
+'retain-on-failure' - Record a trace for each test, but remove it from successful test runs
+
+To set trace on from command == npx playwright test 4race on
+
+Different ways to view trace
+Using command - npx playwright show-trace trace.zip
+Using HTML Report
+Using utility - https://trace.playwright.dev/
+
+
+How to set Tracing programmatically""
+
+test.only('test demo', async ({ page, context l)
+awa$ context.tracing.start({snapshots: true, screenshots: true})
+// test code
+await context.tracing.stop path: 'test-trace.zip'});
+
+
+=======================================================================================================================================================
+
+
+Locators:
+
+await page. goto( 'https : //www. saucedemo. com/ ' )
+await page. pause()
+// using any object property
+await page. click( id=user-namei )
+await page. locator( ' id=user-name ' ) . fill( ' Edison ' )
+await page. locator( ' lid;" user-name"] ' fill( ' Einstein ' )
+
+// using CSS Selector
+// *login-button
+await page. locator( '*login-button' ) .click()
+
+// using Text
+await page. locator( 'text:LOGIN' ) ) ;
+await page. locator( 'input: has-text( "LOGIN") ) . click()
+
+
+==========================================================================================================
+
+
+
+Assertions ::
+
+import { Page, test, expect } from '@playwright/test'
+
+test('assertion test', async ({ page }) => {
+
+    await page.goto('https://kitchen.applitools.com/')
+    await page.pause()
+    //Assertions 
+
+    //Check the element is present or not 
+    await expect(page.getByRole('heading', { name: 'The Kitchen' })).toHaveCount(1)
+
+    if (await page.$('heading', { name: 'The Kitchen' })) {
+        await page.getByRole('heading', { name: 'The Kitchen' }).click()
+    }
+    // check element hidden or vxsxsble
+    //Soft Assertions
+    await expect.soft(page.getByRole('heading', { name: 'The Kitchen' })).toBeVisible()
+    await expect.soft(page.getByRole('heading', { name: 'The Kitchen' })).toBeHidden()
+    // check element enabled or disabled
+    await expect.soft(page.getByRole('heading', { name: 'The Kitchen' })).toBeEnabled()
+    await expect.soft(page.getByRole('heading', { name: 'The Kitchen' })).toBeDisabled()
+
+    //Check the text
+    await expect(page.getByRole('heading', { name: 'The Kitchen' })).toHaveText('The Kitchen')
+    await expect(page.getByRole('heading', { name: 'The Kitchen' })).not.toHaveText('ABCD')
+
+    //Assert URL and Title
+
+    await expect(page).toHaveURL('https://kitchen.applitools.com/')
+    //Assert title using regular expression
+    await expect(page).toHaveTitle(/.*Kitchen/)
+});
+
+==============================================================================================================================
+
+
+How to run tests in Slow Motion (decrease speed of test execution)
+How to record video
+from config file and from within the test
+
+How to run tests in Slow Motion I How to Record Video
+Step I - Open config file and add option for slow motion and video recording
+
+
+const config = {
+use: {
+video: 'on',
+launchOptions:{
+slowMo: 1000
+
+}
+
+slowMo slows down Playwright operations by the specified milliseconds
+video:
+'on' - Record video for each test
+'off - Do not record video
+'retain-on-failure' - Record for each test, but remove from successful test runs
+'on-first-retry' - Record only when retrying a test for the first time
+
+================================================================================================================
+How to set video recording and slow motion from test (Browser Context)
+
+In Playwright we can create isolated incognito browser sessions using browser context
+
+
+import { test, expect, chromium } from '@playwright/test'
+
+test('Record video in slow motion using browser contect', async () => {
+
+    // Launch browser
+    const browser = await chromium.launch({
+        slowMo: 500,
+        headless: false
+    });
+    // Create a new incognito browser context
+    const context = await browser.newContext({
+        recordVideo: {
+            dir: './videos',
+            size: { width: 800, height: 600 }
+        }
+    });
+    // Create a new page inside context.
+    const page = await context.newPage();
+    await page.goto('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login');
+    await page.getByPlaceholder('Username').fill('Admin');
+    await page.getByPlaceholder('Password').click();
+    await page.getByPlaceholder('Password').fill('admin123');
+    await page.getByRole('button', { name: 'Login' }).click();
+    await page.getByRole('link', { name: 'Admin' }).isVisible()
+    // Dispose context once it's no longer needed.
+    await context.close();
+
+});
+
+=============================================================================================================================================
+
+
+To generate allure report follow below steps 
+
+Install dependecy :-  npm i -D @playwright/test allure-playwright
+Run test :- npx playwright test tests\hooksAndGroups.spec.js  --headed --reporter=line,allure-playwright
+RUn :- allure generate allure-results --clean
+Run : allure open 
+
+========================================================================================================================================
+
+
+Annotations:
+
+What are Annotations
+
+Annotations are keywords that contain some logical or conditional functionalities
+Can be used with test blocks to control execution of tests as needed
+E.g. only, fail, fix, slow 
+
+We can apply annotations to a single test or a set of tests
+
+Below are the annotations :
+only
+skip
+skip with condition
+fail
+fixme
+slow
+
+will skip the test
+test.skip('skip this test', async ({ page }) =＞ {
+   // This test will be skipped
+ });
+
+===================================================================================
+
+will mark test as failure
+will show error if the test does not fail
+test('not yet ready', async ({ page }) =＞ {
+   test.fail();
+ });
+
+======================================================================================
+
+ test will be aborted
+test.fixme('test to be fixed', async ({ page }) =＞ {
+ });
+
+=========================================================================================
+marks the test as slow and triples the test timeout
+test('slow test', async ({ page }) =＞ {
+   test.slow();
+ });
+===============================================================================
+
+runs specific tests
+test.only('focus this test', async ({ page }) =＞ {
+   // Run only focused tests in the entire project
+ });
+
+============================================================================================================
+You can tag your tests with tags like
+@smoke
+@sanity
+@fast  @slow 
+and only run the tests that have the certain tag
+
+test('Test full report @smoke, async ({ page }) =＞ {
+   // ...
+ });
+
+npx playwright test --grep “@smoke”
+
+Opposite of grep  Skip tests with certain tag
+npx playwright test --grep-invert “@smoke”
+=============================================================================================================
+
+Alert handling in playwright :
+
+import { browser, BrowserContext, chromium, ElementHandle, page, test } from '@playwright/test'
+
+test.describe("Learn how to handle alert", async () => {
+    let browser;
+    let context;
+    let page;
+    test.beforeAll(async () => {
+        browser = await chromium.launch({
+            headless: false
+        });
+        context = await browser.newContext()
+        page = await context.newPage();
+        await page.goto("https://letcode.in/alert")
+    })
+    test("Handle dialogs", async () => {
+        const ele = await page.$("#prompt");
+        page.on("dialog", (dialog) => {
+            console.log('Message: ' + dialog.message());
+            console.log('Default Value: ' + dialog.defaultValue());
+            console.log('Type: ' + dialog.type());
+            dialog.accept("hello koushik");
+            // dialog.dismiss()
+        })
+        await page.pause()
+        await ele?.click();
+    })
+
+    test.afterAll(async () => {
+        await page.close()
+        await context.close()
+        await browser.close()
+    })
+})
+
+==========================================================================================================================================
+
+Dropdown handling in playwright :
+
+import { browser, page, test, chromium } from '@playwright/test';
+
+test.describe("How to handle Select", () => {
+
+    let browser;
+    let context;
+    let page;
+    test.beforeAll(async () => {
+        browser = await chromium.launch({
+            headless: false
+        });
+        context = await browser.newContext()
+        page = await context.newPage();
+        await page.goto("https://letcode.in/dropdowns")
+    })
+    test("Select a dropdown based on value", async () => {
+        const fruits = await page.$("#fruits");
+        // await fruits?.selectOption({ label: "" });
+        await fruits?.selectOption("2");
+        const msg = await page.$("div.notification.is-success");
+        if (msg) {
+            // expect(await msg.textContent()).toContain("Apple");
+        }
+    })
+    test("Select multiple", async () => {
+        const heros = await page.$("#superheros");
+        heros?.selectOption([
+            { label: "Aquaman" }, { value: "bt" }, { index: 8 }
+        ])
+    })
+    test("Count of the select", async () => {
+        const lang = await page.$$("#lang option")
+        console.log(lang.length);
+    })
+    // test("get selected text", async () => {
+    //     await page.selectOption("#country", "India");
+    //     const text = await page.$eval < string, HTMLSelectElement> ("#country", ele => ele.value)
+    //     console.log(text);
+    //     expect(text).toBe("India");
+    // })
+
+    test.afterAll(async () => {
+        await page.close()
+        await context.close()
+        await browser.close()
+    })
+})
+
+=====================================================================================================================
+
+
+
+Window handling in playwright :
+
+
+
+import { expect, test, Page, chromium } from '@playwright/test';
+
+test.describe("Window handling", () => {
+
+    let browser;
+    let context;
+    let page;
+    test.beforeEach(async () => {
+        browser = await chromium.launch({
+            headless: false
+        });
+        context = await browser.newContext()
+        page = await context.newPage();
+        await page.goto("https://letcode.in/windows")
+    })
+
+    test("Home Page", async () => {
+        console.log(await page.title());
+        expect(await page.title()).toBe("Window handling - LetCode");
+    })
+
+    test("Single page handling", async () => {
+        const [newWindow] = await Promise.all([
+            context.waitForEvent("page"),
+            await page.click("#home")
+        ])
+        await newWindow.waitForLoadState();
+        expect(newWindow.url()).toContain("test");
+        await newWindow.click('"Log in"');
+        expect(newWindow.url()).toContain("signin");
+        // await newWindow.close();
+        await page.bringToFront();
+        // await page.pause()
+        await page.click('"Work-Space"');
+        expect(await page.url()).toContain('test')
+        await page.goBack()
+
+    })
+    test("Multipage handling", async () => {
+        await page.click("#multi")
+        await page.waitForLoadState();
+        const allwindows = page.context().pages();
+        console.log("no.of windows: " + allwindows.length);
+        allwindows.forEach(page => {
+            console.log(page.url());
+        });
+        await allwindows[1].bringToFront();
+        allwindows[1].on("dialog", (dialog) => {
+            console.log('Message: ' + dialog.message());
+            dialog.accept();
+        })
+        await allwindows[1].click("id=accept")
+
+    })
+    test.afterAll(async () => {
+        await page.close()
+        await context.close()
+        await browser.close()
+    })
+})
+
+=============================================================================================================================
+
+
+
+Frames in playwright :
+
+
+import { test, chromium } from '@playwright/test';
+
+test.describe("Frames handling concept", () => {
+
+    let browser;
+    let context;
+    let page;
+    test.beforeAll(async () => {
+        browser = await chromium.launch({
+            headless: false
+        });
+        context = await browser.newContext()
+        page = await context.newPage();
+        await page.goto("https://letcode.in/frame")
+    })
+    test("Interact with frames", async () => {
+        const frame = page.frame({ name: "firstFr" });
+        // frame?.fill("")
+        if (frame != null) {
+            await frame.fill("input[name='fname']", "Akshay");
+            await frame.fill("input[name='lname']", "Gaikwad");
+
+            // inner frame
+            const frames = frame.childFrames();
+            console.log('No. of inner frames: ' + frames.length);
+            if (frames != null)
+                await frames[1].fill("input[name='email']", "Gaikwad@mail.com")
+            else {
+                console.log("Wrong frame");
+            }
+            const parent = frames[0].parentFrame()
+            // await frame.fill("input[name='lname']", "Letcode");
+            await parent?.fill("input[name='lname']", "Youtube");
+        } else throw new Error("No such frame")
+    })
+})
+
+==========================================================================================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

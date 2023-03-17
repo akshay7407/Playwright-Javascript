@@ -1,0 +1,273 @@
+Playwright
+Step 1:
+npm init playwright  
+Step 2:
+playwright.config.js 
+    trace: 'on',
+    browserName:'chromium',
+    headless:false,
+    screenshot:'on',
+    
+inside the use:
+
+Step 3:
+const { test } = require('@playwright/test');
+
+Step 4:
+test('Login Test',async ({browser}) => {
+   const context=await browser.newContext();
+   const page=await context.newPage();
+   await page.goto('https://eagle.creatingwow.in');
+   await page.pause();
+   await page.locator("//input[@id='Username']").fill("pruthvi")
+   await page.locator("#PassCode").fill('xyz');
+
+});
+
+OR
+test('login test without the browser',async ({page}) => {
+    await page.goto("https://playwright.dev/docs/actionability")
+    await page.pause();
+});
+
+Step 5:
+For the run the test:
+npx playwright test
+========================================================================================================						How to get the page title
+consol.log(await page.title());
+========================================================================================================
+					How Get Html text
+console.log(await page.locator('div.errortext').textContent());
+========================================================================================================
+					 Asseration for text verifcation
+await expect(page.locator('div.errortext')).toContainText('Invalid')
+========================================================================================================
+				How to get the one element out of multiple webElement
+console.log(await page.locator(".card-body a").nth(3).textContent())
+console.log(await page.locator(".card-body a").first().textContent())
+========================================================================================================					If the api is hit then the following syntex is
+				      to be used for the get multiple text
+await page.waitForLoadState('networkidle');
+========================================================================================================
+				If api is not hit then following method is to be used
+
+await Promise.all(
+[
+
+           page.waitForNavigation(),
+           loginButton.click()   
+ ])
+=========================================================================================================					DropDown opation selection
+const selectionOfType=page.locator('select.form-control');//select type tag name
+await selectionOfType.selectOption("teach");//list of option in select tag name "value"
+
+========================================================================================================						For the open the debugg mode
+await page.pause();
+========================================================================================================
+					Radio button selection
+Directly inspect and the select the options
+For the apply asseration for the radio button is check or not
+expect(locator).last().toBeChecked();
+above method used for the verfiaction 
+for the get the properties in the boolean format there is another method present
+await locator.isChecked();
+========================================================================================================
+					ChekBox Selection
+Similar method like the Radio button we are able to click that so it will be check
+uncheck method is present for the unchecked selected 
+Also there is no asseration for the unchecked
+For the verifaction of the unchecked there is no method present 
+expect(locator.isChecked).toBeFalsy
+//toBeFalsy return the false
+//toBeTruthy return the true
+========================================================================================================
+					Attribute Asserations
+for the check the attribute value is present or not 
+await expect(locater).toHaveAttribute(“Class”,”Attribute value”)
+========================================================================================================						Child windows Handle
+For the change the focus of the browser from the main window to child browser
+So before click on the child browser link we need to do following things
+intialized the browser with the new contex
+test('2nd test',async ({browser}) => {
+   const context=await browser.newContext();
+   const page=await context.newPage();
+//before the click we need to do the new season
+const [newPage]	=await Promise.all([
+	context.waitForEvent(‘page’),
+	locator.click(),
+])
+now for the new  page we are able to handle it
+========================================================================================================
+				Codegen tool To recored the test script
+npx playwright codegen
+========================================================================================================
+				How to generate the traces and the screenShots 
+for the log,traces and go to the 
+playwright.config.js 
+inside the use write the traces and screenshot 
+ screenshot:'on',
+    trace: 'on',
+
+If we want the traces only on failure 
+trace:’retain-on-failure’
+========================================================================================================
+				For the verifaction of the webelement or the any 
+				      locator is presnet on the screen or not.
+expect(await page.locator(css/xpath).isVisible()).toBeTruthy();
+========================================================================================================
+				For the navigation of the webPage
+page.goBack();
+page.goForword();
+========================================================================================================
+				For the verifaction webElement is in the visible mode or not
+await expect((page.locator("locater")).toBeVisible();
+========================================================================================================
+				For the verifaction of the webelement is hidden or not
+await expect((page.locator("locater")).toBeHidden();
+========================================================================================================
+				How to handle the alert pop up
+Whenever the pop up is open then the event is going to occers
+for that event write the following syntex for the handle that event'
+await page.on('dialog',dialog=>dialog.accept())
+above syntex is active when the any event is going to occers
+========================================================================================================
+				If you want the webelemnt is hover 
+await expect((page.locator("locater")).hover();
+========================================================================================================
+				How to handle the frames in the playwright
+const framePage=page.frameLoctaor("locator")
+framePage.locator("locator:visible").click();
+:visible is the way to call the webelement is in the visible mode
+========================================================================================================
+				For the api testing
+inject the request in the 
+const { test, expect,request} = require('@playwright/test');
+const token;
+request is the libary
+const apiContext=await request.newContext();
+
+----------------------------------
+const loginResponce=
+(method) APIRequestContext.get(url: string, options?: {
+    failOnStatusCode?: boolean | undefined;
+    headers?: {
+        [key: string]: string;
+    } | undefined;
+    ignoreHTTPSErrors?: boolean | undefined;
+    params?: {
+        [key: string]: string | number | boolean;
+    } | undefined;
+    timeout?: number | undefined;
+} | undefined): Promise<...>)
+
+---------------------------------
+for the verifaction of the status code 
+expect(
+const loginResponce.ok()
+-------------------------------------
+const loginResponceJson=loginResponce.json()
+ token=loginResponceJson.token;
+-----------------------------------------------------
+Half of the part is done then we need to set the token in the application parameter
+For the add the token 
+page.addinitScript(value=>{
+
+window.localStorge.setItem('token',value//nothing but the agrument value)
+
+
+},token ///the above one)
+========================================================================================================					For the api automation if the more cookies and other things are hit
+
+let webContext;
+//webContext is the object stored the all the preloaded cookies
+test.beforeAll(async ({browser})=>{
+
+    const context= await browser.newContext();
+    const page=await context.newPage();
+    await page.goto("https://eagle.creatingwow.in/");
+    await page.locator("#Google").click();
+    await page.locator("input[type='email']").fill("pruthvirajsing.rajput@infobeans.com")
+    const nextButton=page.locator("(//span[@class='VfPpkd-vQzf8d'])[2]");
+    await nextButton.click();
+    await page.locator("input[type='password']").fill("1Pruthvir@j")
+    await nextButton.click();
+    console.log(await page.locator("div[style='width:100%']").textContent());
+
+
+   //make the new instance of the context 
+    await context.storageState({path:'state.json'})
+
+//state.json==is the folder to catch the all the json file i.e.cookies etc.
+    webContext= await browser.newContext({storageState:'state.json'});
+in the newContext --we are able to store the all the api calls
+})
+test('click on the three dot ',async () => {
+//with help of the new webContext start the new page for that instance
+
+    const page=await webContext.newPage();
+    await page.pause();
+    await page.goto("https://eagle.creatingwow.in/");
+
+});
+=======================================================================================================
+				for the debug the api call as well
+1.go to the pakage.json
+inside the pakage.json---in the scripts 
+
+{
+"test": "npx playwright test --headed"
+
+2.ctrl+shift+p
+And after that 
+
+3.add the debug point and
+debug the npm script
+========================================================================================================
+				for the traces 
+go to the playwright.config.js
+traces:'on'
+and after that in the test o/p
+we are able to see the zip file
+-----https://trace.playwright.dev/
+inside this open the traces to see the which the request is going to be hit and what is going to happed in that
+========================================================================================================
+				Intercept/alter the network responce
+Make it before to hit that webelement --->
+
+for the alter the page api
+const fakeRespond=proivde the responce that the dont have the api hit
+await page.route("URL",async route=>{
+
+const reponce=await  page.request.featch(route.request())
+//this steps for the api testing helper
+let body=fakeRespond
+route.fulfill({
+responce,
+body
+})
+//fullfill-is the method is send the responce send back to the browser
+
+
+})
+========================================================================================================
+				How to block any Network calls
+for the block the network call
+page.route('**/*.css',route.abort());
+for the img route 
+page.route('**/*.{jpg,png}',route=>route.abort());
+========================================================================================================
+				To print the api log into the o/p
+page.on('request',request=>console.log(request.url()));
+//for the responce 
+page.on('responce',responce=>console.log(responce.url(),responce.status()))
+========================================================================================================
+				for the take the screenshot at any line of code
+await page.screenshot({path:'screenshot.png'})
+----------------------------------------------------------------------
+				for the take the screen shot on the locator
+await page.locator('xpath/css').screenshot({path:'name.type'})
+========================================================================================================
+			To perform the visual testing /it will be check the UI base things
+await page.goto("Url");
+expect(await page.screenshot()).toMatchSnapshot('name.png');
+========================================================================================================
