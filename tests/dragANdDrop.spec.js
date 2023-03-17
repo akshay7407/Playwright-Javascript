@@ -13,7 +13,7 @@ test.describe("Drag and Drop", async () => {
     })
 
 
-    test("my test", async () => {
+    test("@Web my test", async () => {
         await page.goto("https://jqueryui.com/droppable/")
         // switch to frame
         const frame = page.frame({ url: "https://jqueryui.com/resources/demos/droppable/default.html" })

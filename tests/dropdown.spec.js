@@ -14,7 +14,7 @@ test.describe("How to handle Select", () => {
         page = await context.newPage();
         await page.goto("https://letcode.in/dropdowns")
     })
-    test("Select a dropdown based on value", async () => {
+    test("@Web Select a dropdown based on value", async () => {
         const fruits = await page.$("#fruits");
         // await fruits?.selectOption({ label: "" });
         await fruits?.selectOption("2");
@@ -23,13 +23,13 @@ test.describe("How to handle Select", () => {
             // expect(await msg.textContent()).toContain("Apple");
         }
     })
-    test("Select multiple", async () => {
+    test("@Web Select multiple", async () => {
         const heros = await page.$("#superheros");
         heros?.selectOption([
             { label: "Aquaman" }, { value: "bt" }, { index: 8 }
         ])
     })
-    test("Count of the select", async () => {
+    test("@Web Count of the select", async () => {
         const lang = await page.$$("#lang option")
         console.log(lang.length);
     })

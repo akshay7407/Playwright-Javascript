@@ -30,7 +30,7 @@ test.describe("TC001", () => {
         common = new CommonFunctions(page);
     })
 
-    test("Login positive _ JIRA101", async () => {
+    test("@Web Login positive _ JIRA101", async () => {
         await header.clickLoginLink();
         expect(await page.url()).toBe("https://letcode.in/signin")
         await login.enterUserName("koushik1@letcode.in");

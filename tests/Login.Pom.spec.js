@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { LoginPage } from '../pages/login'
 
-test('test', async ({ page }) => {
+test('@Web test', async ({ page }) => {
 
   const Login = new LoginPage(page)
 

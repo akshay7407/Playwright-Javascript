@@ -13,7 +13,7 @@ test.describe("Search Git Repo", () => {
         await page.goto("https://letcode.in/elements")
     })
 
-    test("Enter Git username", async () => {
+    test("@Web Enter Git username", async () => {
 
         const header = await page.$("nav[role='navigation']")
         header?.screenshot({ path: "header.png" })
@@ -21,7 +21,7 @@ test.describe("Search Git Repo", () => {
         await ele?.fill("ortonikc");
         await ele?.press("Enter");
     })
-    test("Print all the repos", async () => {
+    test("@Web Print all the repos", async () => {
         await page.waitForSelector("app-gitrepos ol li", { timeout: 5000 })
         const repos = await page.$$("app-gitrepos ol li");
         console.log(repos.length);

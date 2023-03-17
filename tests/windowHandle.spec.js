@@ -14,12 +14,12 @@ test.describe("Window handling", () => {
         await page.goto("https://letcode.in/windows")
     })
 
-    test("Home Page", async () => {
+    test("@Web Home Page", async () => {
         console.log(await page.title());
         expect(await page.title()).toBe("Window handling - LetCode");
     })
 
-    test("Single page handling", async () => {
+    test("@Web Single page handling", async () => {
         const [newWindow] = await Promise.all([
             context.waitForEvent("page"),
             await page.click("#home")
@@ -36,7 +36,7 @@ test.describe("Window handling", () => {
         await page.goBack()
 
     })
-    test("Multipage handling", async () => {
+    test("@Web Multipage handling", async () => {
         await page.click("#multi")
         await page.waitForLoadState();
         const allwindows = page.context().pages();
