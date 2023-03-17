@@ -1,5 +1,4 @@
 import { test, expect } from '@playwright/test'
-import { timeout } from '../playwright.config';
 import * as data from '../data/jsonData.json'
 
 test('@Web Login test demo', async ({ page }) => {

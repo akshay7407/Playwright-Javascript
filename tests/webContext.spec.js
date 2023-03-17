@@ -20,7 +20,7 @@ test.beforeAll(async ({ browser }) => {
 
 })
 
-test('@Web Check the item is added to cart ', async () => {
+test('@Cart Check the item is added to cart ', async () => {
     //fail
     const productName = 'adidas original';
     const page = await webContext.newPage();
