@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test'
 const mailSender = require('../Utils/functions')
 
 
-test.describe('@Web All my tests', async () => {
+test.describe('All my tests', async () => {
     //test.beforeEach will execute before every test 
     //test.afterEach will execute after every test 
     //test.beforeAll will execute before all test cases 
