@@ -13,7 +13,7 @@ test('@Web Login test demo', async ({ page }) => {
     await page.locator('text=Add Account').isDisabled()
 })
 
-test('@Web OrangeHRM login test', async ({ page }) => {
+test('OrangeHRM login test', async ({ page }) => {
     await page.goto('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login');
     await page.getByPlaceholder('Username').fill(data.username);
     await page.getByPlaceholder('Password').click();
